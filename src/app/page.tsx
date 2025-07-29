@@ -63,7 +63,7 @@ export default function Home() {
   const confettiColors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD'];
 
   return (
-    <div className="min-h-screen bg-gradient-radial from-gray-900 via-gray-800 to-black relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-radial from-gray-900 via-gray-800 to-amber-950 relative overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-pink-900/20" />
       
@@ -111,7 +111,7 @@ export default function Home() {
             {formError && <div className="text-red-600 text-xs text-center">{formError}</div>}
             <button
               type="submit"
-              className="mt-2 bg-amber-700 hover:bg-amber-800 text-white font-bold py-2 px-4 rounded transition"
+              className="mt-2 bg-amber-950 hover:bg-amber-800 text-white font-bold py-2 px-4 rounded transition"
             >
               Continue
             </button>
@@ -214,7 +214,7 @@ export default function Home() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="fixed inset-0 z-50 flex items-center justify-center p-4"
             >
-              <div className="absolute inset-0 bg-black/50" />
+              <div className="absolute inset-0 bg-amber-950/50" />
               <motion.div
                 className="relative rounded-lg p-6 max-w-md w-full shadow-2xl border-8 border-amber-200 overflow-hidden"
                 initial={{ y: 50, opacity: 0 }}
@@ -236,9 +236,9 @@ export default function Home() {
                 <div className="relative z-10">
                   {/* Official Header */}
                   <div className="text-center mb-6 border-b-2 border-amber-300 pb-4">
-                    <div className="text-xs text-amber-700 mb-2 font-wedding">Official Document</div>
+                    <div className="text-xs text-amber-950 mb-2 font-wedding">Official Document</div>
                     <h1 className="text-2xl font-algerian font-bold text-amber-900 mb-1">CERTIFICATE OF MARRIAGE</h1>
-                    <div className="text-sm text-amber-700 font-wedding">Certificate No: MC-2024-001</div>
+                    <div className="text-sm text-amber-950 font-wedding">Certificate No: MC-2024-001</div>
                   </div>
 
                   {/* Certificate Content */}
@@ -249,24 +249,24 @@ export default function Home() {
                     
                     <div className="space-y-3">
                       <div className="border-l-4 border-amber-400 pl-4">
-                        <div className="text-xs text-amber-700 uppercase tracking-wide font-wedding">Groom</div>
+                        <div className="text-xs text-amber-950 uppercase tracking-wide font-wedding">Groom</div>
                         <div className="text-lg font-bold">David Adebayo</div>
-                        <div className="text-xs text-amber-700">Age: 28 | Nationality: Nigerian</div>
+                        <div className="text-xs text-amber-950">Age: 28 | Nationality: Nigerian</div>
                       </div>
                       
-                      <div className="text-center text-amber-700">
+                      <div className="text-center text-amber-950">
                         <div className="text-lg font-wedding">AND</div>
                       </div>
                       
                       <div className="border-l-4 border-amber-400 pl-4">
-                        <div className="text-xs text-amber-700 uppercase tracking-wide font-wedding">Bride</div>
+                        <div className="text-xs text-amber-950 uppercase tracking-wide font-wedding">Bride</div>
                         <div className="text-lg font-bold">{brideName || 'You'}</div>
-                        <div className="text-xs text-amber-700">Age: 25 | Nationality: {brideNationality || 'Guest'}</div>
+                        <div className="text-xs text-amber-950">Age: 25 | Nationality: {brideNationality || 'Guest'}</div>
                       </div>
                     </div>
 
                     <div className="text-center py-4">
-                      <div className="text-sm text-amber-700 mb-2 font-wedding">Date of Marriage</div>
+                      <div className="text-sm text-amber-950 mb-2 font-wedding">Date of Marriage</div>
                       <div className="text-lg font-bold">{new Date().toLocaleDateString('en-US', { 
                         year: 'numeric', 
                         month: 'long', 
@@ -276,12 +276,12 @@ export default function Home() {
 
                     <div className="text-center py-4">
                       <div className="text-xl font-bold text-amber-800 font-wedding">Congratulations!</div>
-                      <div className="text-sm text-amber-700 mt-1 font-wedding">May your love be eternal</div>
+                      <div className="text-sm text-amber-950 mt-1 font-wedding">May your love be eternal</div>
                     </div>
                   </div>
 
                   {/* Official Stamps */}
-                  <div className="absolute top-4 right-4 z-20">
+                  <div className="absolute top-4 left-0 z-20">
                     <Image
                       src="/official-stamp.png"
                       alt="Official stamp"
@@ -295,31 +295,31 @@ export default function Home() {
                     <Image
                       src="/certified-stamp.png"
                       alt="Certified stamp"
-                      width={48}
-                      height={48}
+                      width={64}
+                      height={64}
                       className="opacity-90"
                     />
                   </div>
 
                   {/* Fingerprint Stamps */}
                   <div className="absolute bottom-6 right-6 z-20">
-                    <div className="text-xs text-amber-700 mb-1 text-center font-bold">David's Print</div>
+                    <div className="text-xs text-amber-950 mb-1 text-center font-bold">David's Print</div>
                     <Image
                       src="/fingerprint.png"
                       alt="David's fingerprint"
-                      width={32}
-                      height={32}
+                      width={48}
+                      height={48}
                       className="opacity-80"
                     />
                   </div>
 
                   <div className="absolute bottom-6 left-20 z-20">
-                    <div className="text-xs text-amber-700 mb-1 text-center font-bold">Your Print</div>
+                    <div className="text-xs text-amber-950 mb-1 text-center font-bold">Your Print</div>
                     <Image
                       src="/fingerprint.png"
                       alt="Your fingerprint"
-                      width={32}
-                      height={32}
+                      width={48}
+                      height={48}
                       className="opacity-80"
                     />
                   </div>
@@ -329,11 +329,11 @@ export default function Home() {
                     <div className="grid grid-cols-2 gap-8">
                       <div className="text-center">
                         <div className="border-b-2 border-amber-600 w-full h-8 mb-2"></div>
-                        <div className="text-xs text-amber-700 font-wedding">Authorized Signature</div>
+                        <div className="text-xs text-amber-950 font-wedding">Authorized Signature</div>
                       </div>
                       <div className="text-center">
                         <div className="border-b-2 border-amber-600 w-full h-8 mb-2"></div>
-                        <div className="text-xs text-amber-700 font-wedding">Date</div>
+                        <div className="text-xs text-amber-950 font-wedding">Date</div>
                       </div>
                     </div>
                   </div>
@@ -341,7 +341,7 @@ export default function Home() {
                   {/* Close Button */}
                   <button
                     onClick={() => setShowCertificate(false)}
-                    className="absolute top-2 right-2 text-amber-700 hover:text-amber-900 text-xl bg-amber-100 rounded-full w-8 h-8 flex items-center justify-center z-30"
+                    className="absolute top-2 right-2 text-amber-950 hover:text-amber-900 text-xl bg-amber-100 rounded-full w-8 h-8 flex items-center justify-center z-30"
                   >
                     ×
                   </button>

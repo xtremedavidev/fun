@@ -1,3 +1,6 @@
+/* Custom fonts for certificate */
+@import url('https://fonts.googleapis.com/css2?family=Algerian&family=Dancing+Script:wght@400;700&display=swap');
+
 @import "tailwindcss";
 
 :root {
@@ -23,4 +26,38 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Custom gradient utilities */
+.bg-gradient-radial {
+  background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
+}
+
+.bg-gradient-to-br {
+  background: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+/* Custom animation utilities */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Custom fonts for certificate */
+.font-algerian {
+  font-family: 'Algerian', serif;
+}
+
+.font-wedding {
+  font-family: 'Dancing Script', cursive;
 }

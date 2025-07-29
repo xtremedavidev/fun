@@ -12,6 +12,10 @@ export default function Home() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [longPressTimer, setLongPressTimer] = useState<NodeJS.Timeout | null>(null);
   const [isPressed, setIsPressed] = useState(false);
+  const [formStep, setFormStep] = useState(true);
+  const [brideName, setBrideName] = useState('');
+  const [brideNationality, setBrideNationality] = useState('');
+  const [formError, setFormError] = useState('');
   
   const soundRef = useRef<Howl | null>(null);
 
@@ -64,88 +68,141 @@ export default function Home() {
       <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-pink-900/20" />
       
       {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-4">
-        
-        {/* Initial View */}
-        <AnimatePresence>
-          {!isMarried && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="text-center"
-            >
-              <motion.h1 
-                className="text-2xl md:text-3xl font-bold text-white mb-8"
-                animate={{ opacity: [0.7, 1, 0.7] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                Long-press the fingerprint to scan...
-              </motion.h1>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Fingerprint Button */}
-        <motion.div
-          className="absolute bottom-8 right-8"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <motion.button
-            className={`relative p-4 rounded-full transition-all duration-300 ${
-              isPressed 
-                ? 'bg-green-500/20 shadow-lg shadow-green-500/50' 
-                : 'bg-white/10 hover:bg-white/20'
-            }`}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            onMouseDown={handleTouchStart}
-            onMouseUp={handleTouchEnd}
-            onMouseLeave={handleTouchEnd}
-            disabled={isScanning}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-4 select-none">
+        {/* Initial Form Step */}
+        {formStep && (
+          <motion.form
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="bg-white/80 rounded-lg shadow-lg p-6 w-full max-w-xs flex flex-col gap-4 mb-8"
+            onSubmit={e => {
+              e.preventDefault();
+              if (!brideName.trim() || !brideNationality.trim()) {
+                setFormError('Please enter your name and nationality.');
+                return;
+              }
+              setFormError('');
+              setFormStep(false);
+            }}
           >
-            {/* Fingerprint Icon */}
-            <motion.div
-              className="w-16 h-16 text-white"
-              animate={isScanning ? {
-                scale: [1, 1.2, 1],
-                rotate: [0, 360],
-              } : {}}
-              transition={isScanning ? {
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              } : {}}
-            >
-              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="32" cy="32" r="30" stroke="currentColor" strokeWidth="2" fill="none"/>
-                <path d="M16 24C16 18.4772 20.4772 14 26 14H38C43.5228 14 48 18.4772 48 24V40C48 45.5228 43.5228 50 38 50H26C20.4772 50 16 45.5228 16 40V24Z" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <path d="M24 28C24 25.7909 25.7909 24 28 24H36C38.2091 24 40 25.7909 40 28V36C40 38.2091 38.2091 40 36 40H28C25.7909 40 24 38.2091 24 36V28Z" fill="currentColor" opacity="0.3"/>
-                <circle cx="28" cy="32" r="2" fill="currentColor"/>
-                <circle cx="36" cy="32" r="2" fill="currentColor"/>
-                <path d="M32 20C32 18.8954 32.8954 18 34 18H30C31.1046 18 32 18.8954 32 20V44C32 45.1046 31.1046 46 30 46H34C32.8954 46 32 45.1046 32 44V20Z" fill="currentColor"/>
-              </svg>
-            </motion.div>
-
-            {/* Scanning Ripple Effect */}
-            {isScanning && (
-              <motion.div
-                className="absolute inset-0 rounded-full border-2 border-green-400"
-                initial={{ scale: 1, opacity: 1 }}
-                animate={{ scale: 2, opacity: 0 }}
-                transition={{ duration: 2, repeat: Infinity }}
+            <h2 className="text-lg font-wedding text-center text-amber-900 mb-2">Enter Your Details</h2>
+            <label className="text-sm text-amber-900 font-semibold">Name
+              <input
+                type="text"
+                className="mt-1 w-full rounded border border-amber-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 bg-white"
+                value={brideName}
+                onChange={e => setBrideName(e.target.value)}
+                placeholder="Your Name"
+                required
+                autoFocus
               />
-            )}
+            </label>
+            <label className="text-sm text-amber-900 font-semibold">Nationality
+              <input
+                type="text"
+                className="mt-1 w-full rounded border border-amber-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 bg-white"
+                value={brideNationality}
+                onChange={e => setBrideNationality(e.target.value)}
+                placeholder="Your Nationality"
+                required
+              />
+            </label>
+            {formError && <div className="text-red-600 text-xs text-center">{formError}</div>}
+            <button
+              type="submit"
+              className="mt-2 bg-amber-700 hover:bg-amber-800 text-white font-bold py-2 px-4 rounded transition"
+            >
+              Continue
+            </button>
+          </motion.form>
+        )}
 
-            {/* Pulse Effect */}
+        {/* Only show scanner and certificate if form is completed */}
+        {!formStep && (
+          <>
+            {/* Initial View */}
+            <AnimatePresence>
+              {!isMarried && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="text-center"
+                >
+                  <motion.h1 
+                    className="text-2xl md:text-3xl font-bold text-white mb-8"
+                    animate={{ opacity: [0.7, 1, 0.7] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    Long-press the fingerprint to scan...
+                  </motion.h1>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Fingerprint Button */}
             <motion.div
-              className="absolute inset-0 rounded-full bg-green-400/30"
-              animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          </motion.button>
-        </motion.div>
+              className="absolute bottom-8 right-8 select-none"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <motion.button
+                className={`relative p-4 rounded-full transition-all duration-300 select-none` +
+                  (isPressed 
+                    ? ' bg-green-500/20 shadow-lg shadow-green-500/50' 
+                    : ' bg-white/10 hover:bg-white/20')}
+                style={{ touchAction: 'manipulation' }}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                onMouseDown={handleTouchStart}
+                onMouseUp={handleTouchEnd}
+                onMouseLeave={handleTouchEnd}
+                disabled={isScanning}
+              >
+                {/* Fingerprint Icon */}
+                <motion.div
+                  className="w-16 h-16 text-white"
+                  animate={isScanning ? {
+                    scale: [1, 1.2, 1],
+                    rotate: [0, 360],
+                  } : {}}
+                  transition={isScanning ? {
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  } : {}}
+                >
+                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="32" cy="32" r="30" stroke="currentColor" strokeWidth="2" fill="none"/>
+                    <path d="M16 24C16 18.4772 20.4772 14 26 14H38C43.5228 14 48 18.4772 48 24V40C48 45.5228 43.5228 50 38 50H26C20.4772 50 16 45.5228 16 40V24Z" fill="none" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M24 28C24 25.7909 25.7909 24 28 24H36C38.2091 24 40 25.7909 40 28V36C40 38.2091 38.2091 40 36 40H28C25.7909 40 24 38.2091 24 36V28Z" fill="currentColor" opacity="0.3"/>
+                    <circle cx="28" cy="32" r="2" fill="currentColor"/>
+                    <circle cx="36" cy="32" r="2" fill="currentColor"/>
+                    <path d="M32 20C32 18.8954 32.8954 18 34 18H30C31.1046 18 32 18.8954 32 20V44C32 45.1046 31.1046 46 30 46H34C32.8954 46 32 45.1046 32 44V20Z" fill="currentColor"/>
+                  </svg>
+                </motion.div>
+
+                {/* Scanning Ripple Effect */}
+                {isScanning && (
+                  <motion.div
+                    className="absolute inset-0 rounded-full border-2 border-green-400"
+                    initial={{ scale: 1, opacity: 1 }}
+                    animate={{ scale: 2, opacity: 0 }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                )}
+
+                {/* Pulse Effect */}
+                <motion.div
+                  className="absolute inset-0 rounded-full bg-green-400/30"
+                  animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+              </motion.button>
+            </motion.div>
+          </>
+        )}
 
         {/* Marriage Certificate */}
         <AnimatePresence>
@@ -179,9 +236,9 @@ export default function Home() {
                 <div className="relative z-10">
                   {/* Official Header */}
                   <div className="text-center mb-6 border-b-2 border-amber-300 pb-4">
-                    <div className="text-xs text-black mb-2 font-wedding">Official Document</div>
+                    <div className="text-xs text-amber-700 mb-2 font-wedding">Official Document</div>
                     <h1 className="text-2xl font-algerian font-bold text-amber-900 mb-1">CERTIFICATE OF MARRIAGE</h1>
-                    <div className="text-sm text-black font-wedding">Certificate No: MC-2024-001</div>
+                    <div className="text-sm text-amber-700 font-wedding">Certificate No: MC-2024-001</div>
                   </div>
 
                   {/* Certificate Content */}
@@ -192,24 +249,24 @@ export default function Home() {
                     
                     <div className="space-y-3">
                       <div className="border-l-4 border-amber-400 pl-4">
-                        <div className="text-xs text-black uppercase tracking-wide font-wedding">Groom</div>
+                        <div className="text-xs text-amber-700 uppercase tracking-wide font-wedding">Groom</div>
                         <div className="text-lg font-bold">David Adebayo</div>
-                        <div className="text-xs text-black">Gender: Male | Nationality: Nigerian</div>
+                        <div className="text-xs text-amber-700">Age: 28 | Nationality: Nigerian</div>
                       </div>
                       
-                      <div className="text-center text-black">
+                      <div className="text-center text-amber-700">
                         <div className="text-lg font-wedding">AND</div>
                       </div>
                       
                       <div className="border-l-4 border-amber-400 pl-4">
-                        <div className="text-xs text-black uppercase tracking-wide font-wedding">Bride</div>
-                        <div className="text-lg font-bold">You</div>
-                        <div className="text-xs text-black">Gender: Female | Nationality: Guest</div>
+                        <div className="text-xs text-amber-700 uppercase tracking-wide font-wedding">Bride</div>
+                        <div className="text-lg font-bold">{brideName || 'You'}</div>
+                        <div className="text-xs text-amber-700">Age: 25 | Nationality: {brideNationality || 'Guest'}</div>
                       </div>
                     </div>
 
                     <div className="text-center py-4">
-                      <div className="text-sm text-black mb-2 font-wedding">Date of Marriage</div>
+                      <div className="text-sm text-amber-700 mb-2 font-wedding">Date of Marriage</div>
                       <div className="text-lg font-bold">{new Date().toLocaleDateString('en-US', { 
                         year: 'numeric', 
                         month: 'long', 
@@ -219,17 +276,17 @@ export default function Home() {
 
                     <div className="text-center py-4">
                       <div className="text-xl font-bold text-amber-800 font-wedding">Congratulations!</div>
-                      <div className="text-sm text-black mt-1 font-wedding">May your love be eternal</div>
+                      <div className="text-sm text-amber-700 mt-1 font-wedding">May your love be eternal</div>
                     </div>
                   </div>
 
                   {/* Official Stamps */}
-                  <div className="absolute top-4 left-0 z-20">
+                  <div className="absolute top-4 right-4 z-20">
                     <Image
                       src="/official-stamp.png"
                       alt="Official stamp"
-                      width={80}
-                      height={80}
+                      width={64}
+                      height={64}
                       className="opacity-90"
                     />
                   </div>
@@ -246,23 +303,23 @@ export default function Home() {
 
                   {/* Fingerprint Stamps */}
                   <div className="absolute bottom-6 right-6 z-20">
-                    <div className="text-xs text-black mb-1 text-center font-bold">David's Print</div>
+                    <div className="text-xs text-amber-700 mb-1 text-center font-bold">David's Print</div>
                     <Image
                       src="/fingerprint.png"
                       alt="David's fingerprint"
-                      width={48}
-                      height={48}
+                      width={32}
+                      height={32}
                       className="opacity-80"
                     />
                   </div>
 
                   <div className="absolute bottom-6 left-20 z-20">
-                    <div className="text-xs text-black mb-1 text-center font-bold">Your Print</div>
+                    <div className="text-xs text-amber-700 mb-1 text-center font-bold">Your Print</div>
                     <Image
                       src="/fingerprint.png"
                       alt="Your fingerprint"
-                      width={48}
-                      height={48}
+                      width={32}
+                      height={32}
                       className="opacity-80"
                     />
                   </div>
@@ -272,11 +329,11 @@ export default function Home() {
                     <div className="grid grid-cols-2 gap-8">
                       <div className="text-center">
                         <div className="border-b-2 border-amber-600 w-full h-8 mb-2"></div>
-                        <div className="text-xs text-black font-wedding">Authorized Signature</div>
+                        <div className="text-xs text-amber-700 font-wedding">Authorized Signature</div>
                       </div>
                       <div className="text-center">
                         <div className="border-b-2 border-amber-600 w-full h-8 mb-2"></div>
-                        <div className="text-xs text-black font-wedding">Date</div>
+                        <div className="text-xs text-amber-700 font-wedding">Date</div>
                       </div>
                     </div>
                   </div>
@@ -284,7 +341,7 @@ export default function Home() {
                   {/* Close Button */}
                   <button
                     onClick={() => setShowCertificate(false)}
-                    className="absolute top-2 right-2 text-black hover:text-amber-900 text-xl bg-amber-100 rounded-full w-8 h-8 flex items-center justify-center z-30"
+                    className="absolute top-2 right-2 text-amber-700 hover:text-amber-900 text-xl bg-amber-100 rounded-full w-8 h-8 flex items-center justify-center z-30"
                   >
                     ×
                   </button>

@@ -251,7 +251,7 @@ export default function Home() {
                       <div className="border-l-4 border-amber-400 pl-4">
                         <div className="text-xs text-amber-950 uppercase tracking-wide font-wedding">Groom</div>
                         <div className="text-lg font-bold">David Adebayo</div>
-                        <div className="text-xs text-amber-950">Age: 28 | Nationality: Nigerian</div>
+                        <div className="text-xs text-amber-950">Gender: Male | Nationality: Nigerian</div>
                       </div>
                       
                       <div className="text-center text-amber-950">
@@ -261,7 +261,7 @@ export default function Home() {
                       <div className="border-l-4 border-amber-400 pl-4">
                         <div className="text-xs text-amber-950 uppercase tracking-wide font-wedding">Bride</div>
                         <div className="text-lg font-bold">{brideName || 'You'}</div>
-                        <div className="text-xs text-amber-950">Age: 25 | Nationality: {brideNationality || 'Guest'}</div>
+                        <div className="text-xs text-amber-950">Gender: Female | Nationality: {brideNationality || 'Guest'}</div>
                       </div>
                     </div>
 
